@@ -5,7 +5,7 @@ EXAMPLE = $(shell find ./example/*.js)
 
 build:: $(LIB)
 
-lint::
+lint:
 	@$(BIN)/eslint $(SRC) $(EXAMPLE)
 
 release-patch: build lint

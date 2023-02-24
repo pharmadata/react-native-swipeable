@@ -1,7 +1,16 @@
 /* eslint-disable import/no-unresolved, import/extensions */
-import React, {PureComponent} from 'react';
-import {Animated, Easing, PanResponder, StyleSheet, View, ViewPropTypes} from 'react-native';
-import {PropTypes} from 'prop-types';
+import React, { PureComponent } from "react";
+
+import { ViewPropTypes } from "deprecated-react-native-prop-types";
+import { PropTypes } from "prop-types";
+import {
+  Animated,
+  Easing,
+  PanResponder,
+  StyleSheet,
+  View,
+} from "react-native";
+
 /* eslint-enable import/no-unresolved, import/extensions */
 
 function noop() {}
