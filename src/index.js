@@ -81,6 +81,7 @@ export default class Swipeable extends PureComponent {
 
     // misc
     onRef: PropTypes.func,
+    onLayout: PropTypes.func,
     onPanAnimatedValueRef: PropTypes.func,
     swipeStartMinDistance: PropTypes.number,
 
@@ -207,6 +208,13 @@ export default class Swipeable extends PureComponent {
     pan.flattenOffset();
 
     animationFn(pan, animationConfig).start(onDone);
+  };
+
+  preview = (delay) => {
+    Animated.sequence([
+      Animated.timing(this.state.pan, { delay: delay || 0, toValue: { x: -50, y: 0 }, easing: Easing.out(Easing.quad), useNativeDriver: false, duration: 700 }),
+      Animated.timing(this.state.pan, { delay: 0, toValue: { x: 0, y: 0 }, easing: Easing.elastic(0.5), useNativeDriver: false, duration: 300 })
+    ]).start();
   };
 
   _unmounted = false;
@@ -437,7 +445,10 @@ export default class Swipeable extends PureComponent {
     onPanResponderTerminationRequest: this._handlePanResponderEnd
   });
 
-  _handleLayout = ({nativeEvent: {layout: {width}}}) => this.setState({width});
+  _handleLayout = ({nativeEvent: {layout: {width}}}) => {
+    this.setState({width});
+    if (this.props.onLayout) this.props.onLayout(this);
+  }
 
   _canSwipeRight() {
     return this.props.leftContent || this._hasLeftButtons();
@@ -586,7 +597,7 @@ export default class Swipeable extends PureComponent {
         translateX: pan.x.interpolate({
           inputRange,
           outputRange,
-          extrapolate: 'clamp'
+          extrapolate: "clamp"
         })
       }];
       const buttonStyle = [
@@ -626,12 +637,12 @@ export default class Swipeable extends PureComponent {
           canSwipeLeft ? -width + StyleSheet.hairlineWidth : 0,
           canSwipeRight ? width - StyleSheet.hairlineWidth : 0
         ],
-        extrapolate: 'clamp'
+        extrapolate: "clamp"
       })
     }];
 
     return (
-      <View onLayout={this._handleLayout} style={[styles.container, style]} {...this._panResponder.panHandlers} {...props}>
+      <View style={[styles.container, style]} {...this._panResponder.panHandlers} {...props} onLayout={this._handleLayout}>
         {canSwipeRight && (
           <Animated.View style={[{transform, marginLeft: -width, width}, leftContainerStyle]}>
             {leftContent || this._renderButtons(leftButtons, true)}
@@ -650,7 +661,7 @@ export default class Swipeable extends PureComponent {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row'
+    flexDirection: "row"
   },
   content: {
     flex: 1

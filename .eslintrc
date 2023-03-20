@@ -11,6 +11,8 @@
     "react/forbid-prop-types": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-space-before-closing": 0,
-    "react/sort-comp": 0
+    "react/sort-comp": 0,
+    "linebreak-style": 0,
+    "quotes": ["error", "double"]
   }
 }
